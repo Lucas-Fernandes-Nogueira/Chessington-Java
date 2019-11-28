@@ -17,6 +17,7 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
         ArrayList<Move> allowedMoves = new ArrayList<Move>();
+        if(from.getRow()==0||from.getRow()==7) return allowedMoves;
         //pawn moving forwards 1 square
         if(!isTherePieceInFront(from, board, 1)){
             allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier, from.getCol())));
