@@ -26,6 +26,12 @@ public class Pawn extends AbstractPiece {
                 allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier*2, from.getCol())));
             }
         }
+        if(canCaptureLeft(from, board)){
+            allowedMoves.add(new Move(from, new Coordinates(from.getRow() + multiplier, from.getCol() + multiplier)));
+        }
+        if(canCaptureRight(from, board)){
+            allowedMoves.add(new Move(from, new Coordinates(from.getRow() + multiplier, from.getCol() - multiplier)));
+        }
         return allowedMoves;
     }
 
@@ -38,4 +44,27 @@ public class Pawn extends AbstractPiece {
         return ((getColour() == PlayerColour.WHITE && from.getRow() == 6) ||
                 (getColour() == PlayerColour.BLACK && from.getRow() == 1));
     }
+
+    private boolean canCaptureRight(Coordinates from, Board board){
+        int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
+        Coordinates captureCoords = new Coordinates(from.getRow() + multiplier, from.getCol() - multiplier);
+        if(!captureCoords.isInBounds()) return false;
+        Piece diagPiece = board.get(captureCoords);
+        if( diagPiece != null){
+            return (diagPiece.getColour() != getColour());
+        }
+        return false;
+    }
+
+    private boolean canCaptureLeft(Coordinates from, Board board){
+        int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
+        Coordinates captureCoords = new Coordinates(from.getRow() + multiplier, from.getCol() + multiplier);
+        if(!captureCoords.isInBounds()) return false;
+        Piece diagPiece = board.get(captureCoords);
+        if( diagPiece != null){
+            return (diagPiece.getColour() != getColour());
+        }
+        return false;
+    }
+
 }
