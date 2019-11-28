@@ -15,14 +15,26 @@ public class Pawn extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
-        int multiplier = (this.getColour()==PlayerColour.WHITE)?-1:1;
+        int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
         ArrayList<Move> allowedMoves = new ArrayList<Move>();
         //pawn moving forwards 1 square
-        allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier, from.getCol())));
-        if((this.getColour() == PlayerColour.WHITE && from.getRow() == 6) ||
-                (this.getColour() == PlayerColour.BLACK && from.getRow() == 1)){
-            allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier*2, from.getCol())));
+        if(!isTherePieceInFront(from, board, 1)){
+            allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier, from.getCol())));
+            //pawn moving forwards 2 squares
+            if(!isTherePieceInFront(from, board, 2) && isOnStartRow(from)){
+                allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier*2, from.getCol())));
+            }
         }
         return allowedMoves;
+    }
+
+    private boolean isTherePieceInFront(Coordinates from, Board board, int num){
+        int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
+        return (board.get(new Coordinates(from.getRow() + multiplier*num, from.getCol())) != null);
+    }
+
+    private boolean isOnStartRow(Coordinates from){
+        return ((getColour() == PlayerColour.WHITE && from.getRow() == 6) ||
+                (getColour() == PlayerColour.BLACK && from.getRow() == 1));
     }
 }
