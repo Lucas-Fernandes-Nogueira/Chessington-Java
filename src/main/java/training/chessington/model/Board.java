@@ -49,4 +49,17 @@ public class Board {
     public void placePiece(Coordinates coords, Piece piece) {
         board[coords.getRow()][coords.getCol()] = piece;
     }
+
+    public boolean isAttacked(Coordinates target, PlayerColour defender){
+        for(int row = 0; row < 8; row++){
+            for(int col = 0; col < 8; col++){
+                Coordinates from = new Coordinates(row, col);
+                Piece attackingPiece = get(from);
+                if(attackingPiece!= null&&(attackingPiece.getColour()!=defender&&attackingPiece.getAllowedMoves(from, this).contains(new Move(from,target)))){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

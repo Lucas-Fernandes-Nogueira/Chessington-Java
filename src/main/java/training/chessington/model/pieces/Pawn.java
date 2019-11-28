@@ -37,7 +37,9 @@ public class Pawn extends AbstractPiece {
 
     private boolean isTherePieceInFront(Coordinates from, Board board, int num){
         int multiplier = (getColour()==PlayerColour.WHITE)?-1:1;
-        return (board.get(new Coordinates(from.getRow() + multiplier*num, from.getCol())) != null);
+        Coordinates target = new Coordinates(from.getRow() + multiplier*num, from.getCol());
+        if( !target.isInBounds()) return true;
+        else return (board.get(target) != null);
     }
 
     private boolean isOnStartRow(Coordinates from){
