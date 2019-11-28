@@ -19,6 +19,10 @@ public class Pawn extends AbstractPiece {
         ArrayList<Move> allowedMoves = new ArrayList<Move>();
         //pawn moving forwards 1 square
         allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier, from.getCol())));
+        if((this.getColour() == PlayerColour.WHITE && from.getRow() == 6) ||
+                (this.getColour() == PlayerColour.BLACK && from.getRow() == 1)){
+            allowedMoves.add(new Move(from, new Coordinates(from.getRow()+multiplier*2, from.getCol())));
+        }
         return allowedMoves;
     }
 }
